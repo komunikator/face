@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js"
+    "start": "electron main.js"
   },
   "main": "index",
   "dependencies": {
