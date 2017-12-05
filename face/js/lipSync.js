@@ -307,4 +307,4 @@ function lipSync(message, lips) {
 }
 
 
-lipSync("привет", lipsHappy);
+// lipSync("привет", lipsHappy);

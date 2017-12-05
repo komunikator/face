@@ -4,6 +4,8 @@
   },
   "main": "index",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "mars": "git+https://github.com/komunikator/mars.git",
+    "sip_client": "git+https://github.com/komunikator/sip_client.git"
   }
 }
