@@ -51,8 +51,6 @@ function getNewFaceSizes() {
     // рамка видео
     frameWidth = videoWidth;
     frameHeight = videoHeight;
-    
-    console.log(fullWidth);
 }
 // Internal
 var jseyeso = null,

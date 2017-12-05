@@ -6,7 +6,7 @@
   <script src="js/tracking/tracking-min.js"></script>
   <script src="js/tracking/face-min.js"></script>
   <script src="js/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8"></script>
-  
+
 </head>
 <body id="body">
   <div class="bg"></div>
@@ -16,21 +16,20 @@
   <canvas id="canvas"width="10" height="10"></canvas>
   <img id="mouth" src="img/h4.png">
   
-  <div class="right">
+  <!-- <div class="right">
     <button id="start_button" onclick="startRecognize(event)">
       <img id="start_img" src="mic.gif" alt="Start"></button>
-  </div>
+  </div> -->
 
   <div id="log"></div>
   <script src="js/eyes.js"></script>
   <script>
     eyes();
   </script>
-  <script src="js/speech.js" type="text/javascript" charset="utf-8"></script>
+  <!-- <script src="js/speech.js" type="text/javascript" charset="utf-8"></script> -->
   <script src="js/faceTrack.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/lipSync.js" type="text/javascript" charset="utf-8"></script> 
   <script>
-    // фулскрин
     fullBody = document.getElementById("body");
     fs = false;
     function launchFullScreen(element) {
@@ -54,7 +53,6 @@
         fs = false;
       }
     }
-    // lipSync('Привет как дела', lipsHappy);
   </script>
-
+  <script src="js/index.js" type="text/javascript" charset="utf-8"></script> 
 </body>

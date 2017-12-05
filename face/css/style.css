@@ -29,7 +29,7 @@ video, canvas, #video {
 -webkit-transform: scaleX(-1);
     z-index: 1;
     margin-left: 35px;
-    margin-top: 515px;
+    margin-top: 15px;
     position: absolute;
 }
 
