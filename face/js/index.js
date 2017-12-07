@@ -197,10 +197,45 @@ async function initMars() {
 
 initMars();
 
+// ********************** SIP CLIENT **********************
+console.log(`NodeJS version: ${process.versions.node}`);
 
+let sipClient;
+let say = false;
+let timer;
 
+function startSipClient() {
+  let pathSipClient = process.cwd() + '/face/js/sip_client.js';
+  sipClient = require('child_process').fork(pathSipClient, {silent: true, execPath: 'node'});
 
-// **********************  **********************
+  sipClient.on('error', (code, signal) => {
+    console.log(`Child process sipClient event: [error] exited with code ${code}`);
+    console.log(`Child process sipClient event: [error] exited with signal ${signal}`);
+  });
 
-// lipSync("Привет", lipsHappy);
-// let sipClient = require('sip_client');
+  sipClient.on('close', (code) => {
+    console.log(`Child process sipClient event: [close] exited with code ${code}`);
+  });
+
+  sipClient.on('message', (message) => {
+    console.log(`Child process sipClient event: [message]  ${message}`);
+
+    if (say) {
+      clearTimeout(timer);
+
+      lipSync(getSymbol(), lipsHappy);
+
+      timer = setTimeout(() => {
+        lipSync('б', lipsHappy);
+      }, 100);
+    }
+    say = !say;
+  });
+}
+
+function getSymbol() {
+  let possible = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789';
+  return possible.charAt(Math.floor(Math.random() * possible.length));
+}
+
+startSipClient();

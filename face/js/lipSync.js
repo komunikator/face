@@ -3,7 +3,8 @@ lipsContainer = document.getElementById("mouth");
 fullWidth = fullWidth; // ширина экрана, берется из eyes
 //дефолтное расположение и ширина картинок/вся ширина
 lipsContainer.style.left = 484 / 1920 * fullWidth + "px";
-lipsContainer.style.top = 750 / 1920 * fullWidth + "px";
+// lipsContainer.style.top = 750 / 1920 * fullWidth + "px";
+lipsContainer.style.top = "382px";
 lipsContainer.style.width = 950 / 1920 * fullWidth + "px";
 
 showTime = 200;
