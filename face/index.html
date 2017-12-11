@@ -8,57 +8,86 @@
   <script src="js/tracking/face-min.js"></script>
   <script src="js/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
+
 <body id="body">
-  <div class="bg"></div>
-  <a class="fullscreen-button" onclick="launchFullScreen (fullBody);"></a>
+  <div id="preloader" style="display: none; position: absolute; z-index: 200; height: 100vh; width: 100%;" align="center">
+    <div style="display: block; position: absolute; height: 100vh; width: 100%; background: #eaeaea; opacity: 0.5;" align="center"></div>
+    <div class="sk-fading-circle" align="center">
+      <div class="sk-circle1 sk-circle"></div>
+      <div class="sk-circle2 sk-circle"></div>
+      <div class="sk-circle3 sk-circle"></div>
+      <div class="sk-circle4 sk-circle"></div>
+      <div class="sk-circle5 sk-circle"></div>
+      <div class="sk-circle6 sk-circle"></div>
+      <div class="sk-circle7 sk-circle"></div>
+      <div class="sk-circle8 sk-circle"></div>
+      <div class="sk-circle9 sk-circle"></div>
+      <div class="sk-circle10 sk-circle"></div>
+      <div class="sk-circle11 sk-circle"></div>
+      <div class="sk-circle12 sk-circle"></div>
+    </div>
+  </div>
 
-  <!-- All of the Node.js APIs are available in this renderer process. -->
-  Node.js <script>document.write(process.versions.node)</script>,
-  <br>Chromium <script>document.write(process.versions.chrome)</script>,
-  <br>Electron <script>document.write(process.versions.electron)</script>.
-  <video id="video" width="10" height="10" preload autoplay loop muted type="video/mp4"></video>
-  <canvas id="canvas"width="10" height="10"></canvas>
-  <img id="mouth" src="img/h4.png">
-  <a href="https://net.trusted.ru/idp/AuthnEngine#/register">Login</a>
-  <!-- <div class="right">
-    <button id="start_button" onclick="startRecognize(event)">
-      <img id="start_img" src="mic.gif" alt="Start"></button>
-  </div> -->
+  <div id="login_conteiner" class="login_conteiner">
+    <iframe src="../login/index.html" id="frame" style="height: 100vh; width: 100%;" align="center">
+      Ваш браузер не поддерживает плавающие фреймы!
+    </iframe>
+  </div>
 
-  <div id="log"></div>
-  <script src="js/eyes.js"></script>
-  <script>
-    eyes();
-  </script>
-  <!-- <script src="js/speech.js" type="text/javascript" charset="utf-8"></script> -->
-  <script src="js/faceTrack.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/lipSync.js" type="text/javascript" charset="utf-8"></script> 
-  <script>
-    console.log('!!!!!!!!!!!!!!!!!! ', new Date());
-    fullBody = document.getElementById("body");
-    fs = false;
-    function launchFullScreen(element) {
-      if (!fs) {
-        if(element.requestFullScreen) {
-          element.requestFullScreen();
-        } else if(element.mozRequestFullScreen) {
-          element.mozRequestFullScreen();
-        } else if(element.webkitRequestFullScreen) {
-          element.webkitRequestFullScreen();
+  <div id="face" style="display: none;">
+    <div class="bg"></div>
+    <a class="fullscreen-button" onclick="launchFullScreen (fullBody);"></a>
+
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    Node.js <script>document.write(process.versions.node)</script>,
+    <br>Chromium <script>document.write(process.versions.chrome)</script>,
+    <br>Electron <script>document.write(process.versions.electron)</script>.
+    <video id="video" width="10" height="10" preload autoplay loop muted type="video/mp4"></video>
+    <canvas id="canvas"width="10" height="10"></canvas>
+    <img id="mouth" src="img/h4.png">
+    <br><a href="https://net.trusted.ru/idp/AuthnEngine#/login">Login</a>
+    <br><a href="https://net.trusted.ru/idp/AuthnEngine#/register">Register</a>
+
+    <!-- <div class="right">
+      <button id="start_button" onclick="startRecognize(event)">
+        <img id="start_img" src="mic.gif" alt="Start"></button>
+    </div> -->
+
+    <div id="log"></div>
+    <script src="js/eyes.js"></script>
+    <script>
+      eyes();
+    </script>
+    <!-- <script src="js/speech.js" type="text/javascript" charset="utf-8"></script> -->
+    <script src="js/faceTrack.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/lipSync.js" type="text/javascript" charset="utf-8"></script> 
+    <script>
+      fullBody = document.getElementById("body");
+      fs = false;
+      function launchFullScreen(element) {
+        if (!fs) {
+          if(element.requestFullScreen) {
+            element.requestFullScreen();
+          } else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if(element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+          }
+          fs = true;
+        } else {
+          if(document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if(document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
+          fs = false;
         }
-        fs = true;
-      } else {
-        if(document.cancelFullScreen) {
-          document.cancelFullScreen();
-        } else if(document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if(document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
-        }
-        fs = false;
       }
-    }
-  </script>
-  <script>if (window.module) module = window.module;</script>
-  <!-- <script src="js/index.js" type="text/javascript" charset="utf-8"></script>  -->
+    </script>
+    <script>if (window.module) module = window.module;</script>
+    <script src="js/index.js" type="text/javascript" charset="utf-8"></script> 
+  </div>
+
 </body>

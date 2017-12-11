@@ -1,3 +1,65 @@
+// ******************************** Base64 ********************************
+let Base64 = {
+  characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=" ,
+
+  encode: function( string )
+  {
+      var characters = Base64.characters;
+      var result     = '';
+
+      var i = 0;
+      do {
+          var a = string.charCodeAt(i++);
+          var b = string.charCodeAt(i++);
+          var c = string.charCodeAt(i++);
+
+          a = a ? a : 0;
+          b = b ? b : 0;
+          c = c ? c : 0;
+
+          var b1 = ( a >> 2 ) & 0x3F;
+          var b2 = ( ( a & 0x3 ) << 4 ) | ( ( b >> 4 ) & 0xF );
+          var b3 = ( ( b & 0xF ) << 2 ) | ( ( c >> 6 ) & 0x3 );
+          var b4 = c & 0x3F;
+
+          if( ! b ) {
+              b3 = b4 = 64;
+          } else if( ! c ) {
+              b4 = 64;
+          }
+
+          result += Base64.characters.charAt( b1 ) + Base64.characters.charAt( b2 ) + Base64.characters.charAt( b3 ) + Base64.characters.charAt( b4 );
+
+      } while ( i < string.length );
+
+      return result;
+  } ,
+
+  decode: function( string )
+  {
+      var characters = Base64.characters;
+      var result     = '';
+
+      var i = 0;
+      do {
+          var b1 = Base64.characters.indexOf( string.charAt(i++) );
+          var b2 = Base64.characters.indexOf( string.charAt(i++) );
+          var b3 = Base64.characters.indexOf( string.charAt(i++) );
+          var b4 = Base64.characters.indexOf( string.charAt(i++) );
+
+          var a = ( ( b1 & 0x3F ) << 2 ) | ( ( b2 >> 4 ) & 0x3 );
+          var b = ( ( b2 & 0xF  ) << 4 ) | ( ( b3 >> 2 ) & 0xF );
+          var c = ( ( b3 & 0x3  ) << 6 ) | ( b4 & 0x3F );
+
+          result += String.fromCharCode(a) + (b?String.fromCharCode(b):'') + (c?String.fromCharCode(c):'');
+
+      } while( i < string.length );
+
+      return result;
+  }
+};
+
+
 // ******************************** Delay ********************************
 function delay() {
   return new Promise((resolve) => {
@@ -195,10 +257,10 @@ async function initMars() {
   }
 }
 
-initMars();
+//initMars();
 
 // ********************** SIP CLIENT **********************
-console.log(`NodeJS version: ${process.versions.node}`);
+// console.log(`NodeJS version: ${process.versions.node}`);
 
 let sipClient;
 let say = false;
@@ -238,4 +300,197 @@ function getSymbol() {
   return possible.charAt(Math.floor(Math.random() * possible.length));
 }
 
-startSipClient();
+// ********************** Login **********************
+function getToken(userData) {
+  return new Promise((resolve) => {
+    request.post({
+      headers: {'Authorization' :  "Basic " + Base64.encode('1f7c4dbbe228fcc26121f59cf3f337de' + ':' + '123456')},
+      url: 'https://net.trusted.ru/idp/sso/oauth/token',
+      form: {
+          grant_type: 'password',
+          username: userData.login,
+          password: userData.password
+      }
+    }, (err, response, body) => {
+      if (err) return resolve(false);
+
+      try {
+        return resolve( JSON.parse(body) );
+      } catch(error) {
+        console.log(error);
+        return resolve(false);
+      }
+    });
+  });
+}
+
+function getProfile(accessData) {
+  return new Promise((resolve) => {
+    if (!accessData || !('access_token' && 'expires_in' 
+      && 'refresh_token' && 'scope' && 'token_type' in accessData) ) {
+      return resolve(false);
+    }
+
+    request.get({
+      url: 'https://net.trusted.ru/trustedapp/rest/user/profile/get',
+      headers: { 'Authorization':  "Bearer " + accessData.access_token },
+      jar: true
+    },function(err, resp, data) {
+      if (err) return resolve(false);
+      try {
+        resolve( JSON.parse(data).data );
+      } catch(error) {
+        console.log(error);
+        resolve(false);
+      }
+    });
+  });
+}
+
+let startAuth = false;
+async function loginUser(userData) {
+  console.log('loginUser: ', startAuth);
+  if (startAuth) return false;
+  startAuth = true;
+
+  let token = await getToken(userData);
+  let profile;
+
+  if ('access_token' in token) {
+    console.log('Получили токен ', token);
+    profile = await getProfile(token);
+  } else {
+    console.log('Токен не получен');
+  }
+  
+  if (profile && ('email' in profile)) {
+    console.log('Получили профиль');
+    let user = profile.login || profile.email;
+    console.log('User ', user);
+
+    hideLogin();
+    showFace();
+    startFaceTrack();
+    startSipClient();
+
+    // let mouth = document.getElementById('mouth');
+    // mouth.remove();
+  } else {
+    console.log('Не получили профиль');
+  }
+  startAuth = false;
+  hidePreloader();
+}
+
+// loginUser();
+
+// ********************** Conteiners **********************
+let iframe = document.getElementsByTagName('iframe')[0];
+
+iframe.onload = function() {
+  let iframeDoc = iframe.contentWindow.document;
+
+  let form = iframeDoc.getElementById('login_form');
+  let login = iframeDoc.getElementById('login');
+  let password = iframeDoc.getElementById('password');
+
+  function onSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (login.value && password.value) {
+      showPreloader();
+      loginUser({ 
+        login: login.value, 
+        password: password.value 
+      });
+    }
+  }
+
+  form.onsubmit = onSubmit;
+  iframeDoc.getElementById('sumbit_btn').onclick = onSubmit;
+};
+
+// Login
+function hideLogin() {
+  document.getElementById('login_conteiner').style.display = "none";
+}
+
+// Face
+function showFace() {
+  document.getElementById('face').style.display = "block";
+}
+
+
+// Preloader
+function hidePreloader() {
+  document.getElementById('preloader').style.display = "none";
+}
+
+function showPreloader() {
+  document.getElementById('preloader').style.display = "block";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+function getProfile(accessData) {
+  return new Promise((resolve) => {
+    if (!accessData || !('access_token' && 'expires_in' 
+      && 'refresh_token' && 'scope' && 'token_type' in accessData) ) {
+      return resolve(false);
+    }
+
+    debugger
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + accessData.access_token);
+    const request = {
+      headers: myHeaders,
+      method: 'GET', 
+    };
+
+    console.log(coockie);
+
+    fetch('https://net.trusted.ru/trustedapp/rest/user/profile/get', request)
+      .then((err, data) => {
+        console.log(err);
+        console.log(data);
+        debugger;
+      })
+      .catch(err => {
+        debugger;
+      }); 
+
+    // request.get({
+    //   url: 'https://net.trusted.ru/trustedapp/rest/user/profile/get',
+    //   headers: { 'Authorization':  "Bearer " + accessData.access_token },
+    // },function(err, resp, data) {
+    //   debugger;
+    //   if (err) return resolve(false);
+    //   try {
+    //     resolve( JSON.parse(data).data );
+    //   } catch(error) {
+    //     console.log(error);
+    //     resolve(false);
+    //   }
+    // });
+  });
+}
+*/
