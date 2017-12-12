@@ -435,3 +435,28 @@ hideLogin();
 showFace();
 startFaceTrack();
 startSipClient();
+
+
+
+
+
+
+
+// Автоматическая замена файлов
+// let fs = require('fs');
+
+// function deleteMarsViewFiles() {
+//   fs.unlinkSync('node_modules/mars/www/views/index.html');
+//   fs.unlinkSync('node_modules/mars/www/root/main/javascripts/app/view/Viewport.js');
+//   fs.unlinkSync('node_modules/mars/www/root/main/stylesheets/css/ext.custom.css');
+// }
+
+// function copyMarsFiles() {
+//   fs.copyFile('mars/www', 'node_modules/mars/www', (err) => {
+//     if (err) throw err;
+//     console.log('www was copied to www');
+//   }); 
+// }
+
+// deleteMarsViewFiles();
+// copyMarsFiles();
