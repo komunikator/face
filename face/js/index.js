@@ -413,12 +413,16 @@ iframe.onload = function() {
 
 // Login
 function hideLogin() {
-  document.getElementById('login_conteiner').style.display = "none";
+  document.getElementById('login_conteiner').style.display = 'none';
 }
 
 // Face
 function showFace() {
-  document.getElementById('face').style.display = "block";
+  document.getElementById('face').style.display = 'block';
+}
+
+function hideFace() {
+  document.getElementById('face').style.display = 'none';
 }
 
 
@@ -431,14 +435,40 @@ function showPreloader() {
   document.getElementById('preloader').style.display = "block";
 }
 
+// Mars
+function hideMars() {
+  document.getElementById('mars').style.display = 'none';
+}
+
+function showMars() {
+  document.getElementById('mars').style.display = 'block';
+}
+
+document.getElementById('widget_mars').onclick = function() {
+  if (document.getElementById('face').style.display == 'block') {
+    hideFace();
+    showMars();
+    document.getElementById('widget_mars').style.left = '650px';
+  } else {
+    hideMars();
+    document.getElementById('widget_mars').style.left = '125px';
+    showFace();
+  }
+};
+
+
+showPreloader();
 hideLogin();
 showFace();
 startFaceTrack();
 startSipClient();
 
-
-
-
+setTimeout(() => {
+  document.getElementById('frame_mars').src = 'http://localhost:8000/';
+  hidePreloader();
+  // hideFace();
+  // showMars();
+}, 5000);
 
 
 

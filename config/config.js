@@ -11,6 +11,7 @@
         "redirect_uri": ""
     },
     "repository": "https://raw.githubusercontent.com/komunikator/mars/master/package.json",
+    "webAuth": "disable",
     "webAccounts": [
         {
             "username": "admin",

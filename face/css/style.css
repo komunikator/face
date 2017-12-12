@@ -28,8 +28,8 @@ video, canvas, #video {
    -moz-transform: scaleX(-1);
 -webkit-transform: scaleX(-1);
     z-index: 1;
-    margin-left: 0px;
-    margin-top: 55px;
+    margin-left: 18px;
+    margin-top: 22px;
     position: absolute;
 }
 
@@ -213,4 +213,10 @@ video, canvas, #video {
   @keyframes sk-circleFadeDelay {
     0%, 39%, 100% { opacity: 0; }
     40% { opacity: 1; } 
+  }
+
+  .widget {
+      position: absolute;
+      height: 75px;
+      width: 75px;
   }

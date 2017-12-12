@@ -10,7 +10,11 @@
 </head>
 
 <body id="body">
-  <div id="preloader" style="display: none; position: absolute; z-index: 200; height: 100vh; width: 100%;" align="center">
+  <div id="widget_mars" class="widget" style="z-index: 200; left: 125px; top: 15px; cursor: pointer;">
+    <img id="widget_mars_ico" src="img/change.png" height="100%" width="100%">
+  </div>
+
+  <div id="preloader" style="display: none; position: absolute; z-index: 300; height: 100vh; width: 100%;" align="center">
     <div style="display: block; position: absolute; height: 100vh; width: 100%; background: #eaeaea; opacity: 0.5;" align="center"></div>
     <div class="sk-fading-circle" align="center">
       <div class="sk-circle1 sk-circle"></div>
@@ -34,19 +38,25 @@
     </iframe>
   </div>
 
+  <div id="mars" style="display: none;">
+    <iframe src="" id="frame_mars" style="height: 100vh; width: 100%;" align="center">
+      Ваш браузер не поддерживает плавающие фреймы!
+    </iframe>
+  </div>
+
   <div id="face" style="display: none;">
     <div class="bg"></div>
     <a class="fullscreen-button" onclick="launchFullScreen (fullBody);"></a>
 
     <!-- All of the Node.js APIs are available in this renderer process. -->
-    Node.js <script>document.write(process.versions.node)</script>,
+    <!-- Node.js <script>document.write(process.versions.node)</script>,
     <br>Chromium <script>document.write(process.versions.chrome)</script>,
-    <br>Electron <script>document.write(process.versions.electron)</script>.
+    <br>Electron <script>document.write(process.versions.electron)</script>. -->
     <video id="video" width="10" height="10" preload autoplay loop muted type="video/mp4"></video>
     <canvas id="canvas"width="10" height="10"></canvas>
     <img id="mouth" src="img/h4.png">
-    <br><a href="https://net.trusted.ru/idp/AuthnEngine#/login">Login</a>
-    <br><a href="https://net.trusted.ru/idp/AuthnEngine#/register">Register</a>
+    <!-- <br><a href="https://net.trusted.ru/idp/AuthnEngine#/login">Login</a>
+    <br><a href="https://net.trusted.ru/idp/AuthnEngine#/register">Register</a> -->
 
     <!-- <div class="right">
       <button id="start_button" onclick="startRecognize(event)">
