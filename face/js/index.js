@@ -257,7 +257,7 @@ async function initMars() {
   }
 }
 
-//initMars();
+initMars();
 
 // ********************** SIP CLIENT **********************
 // console.log(`NodeJS version: ${process.versions.node}`);
@@ -267,6 +267,7 @@ let say = false;
 let timer;
 
 function startSipClient() {
+  // showPreloader();
   let pathSipClient = process.cwd() + '/face/js/sip_client.js';
   sipClient = require('child_process').fork(pathSipClient, {silent: true, execPath: 'node'});
 
@@ -280,6 +281,7 @@ function startSipClient() {
   });
 
   sipClient.on('message', (message) => {
+    hidePreloader();
     console.log(`Child process sipClient event: [message]  ${message}`);
 
     if (say) {
@@ -349,7 +351,6 @@ function getProfile(accessData) {
 
 let startAuth = false;
 async function loginUser(userData) {
-  console.log('loginUser: ', startAuth);
   if (startAuth) return false;
   startAuth = true;
 
@@ -357,16 +358,15 @@ async function loginUser(userData) {
   let profile;
 
   if ('access_token' in token) {
-    console.log('Получили токен ', token);
+    console.log('Получили токен ');
     profile = await getProfile(token);
   } else {
     console.log('Токен не получен');
   }
   
   if (profile && ('email' in profile)) {
-    console.log('Получили профиль');
+    console.log('Получен профиль');
     let user = profile.login || profile.email;
-    console.log('User ', user);
 
     hideLogin();
     showFace();
@@ -431,66 +431,7 @@ function showPreloader() {
   document.getElementById('preloader').style.display = "block";
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-function getProfile(accessData) {
-  return new Promise((resolve) => {
-    if (!accessData || !('access_token' && 'expires_in' 
-      && 'refresh_token' && 'scope' && 'token_type' in accessData) ) {
-      return resolve(false);
-    }
-
-    debugger
-
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + accessData.access_token);
-    const request = {
-      headers: myHeaders,
-      method: 'GET', 
-    };
-
-    console.log(coockie);
-
-    fetch('https://net.trusted.ru/trustedapp/rest/user/profile/get', request)
-      .then((err, data) => {
-        console.log(err);
-        console.log(data);
-        debugger;
-      })
-      .catch(err => {
-        debugger;
-      }); 
-
-    // request.get({
-    //   url: 'https://net.trusted.ru/trustedapp/rest/user/profile/get',
-    //   headers: { 'Authorization':  "Bearer " + accessData.access_token },
-    // },function(err, resp, data) {
-    //   debugger;
-    //   if (err) return resolve(false);
-    //   try {
-    //     resolve( JSON.parse(data).data );
-    //   } catch(error) {
-    //     console.log(error);
-    //     resolve(false);
-    //   }
-    // });
-  });
-}
-*/
+hideLogin();
+showFace();
+startFaceTrack();
+startSipClient();

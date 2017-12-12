@@ -21,7 +21,7 @@ setTimeout(() => {
     registerExpires: 120,
     transport: 'udp'
   });
-}, 5000);
+}, 1000);
 
 setTimeout(() => {
     const Speaker = require('speaker');
@@ -110,4 +110,4 @@ setTimeout(() => {
         }
 
     });
-}, 10000);
+}, 2000);
