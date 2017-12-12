@@ -257,7 +257,7 @@ async function initMars() {
   }
 }
 
-initMars();
+// initMars();
 
 // ********************** SIP CLIENT **********************
 // console.log(`NodeJS version: ${process.versions.node}`);
