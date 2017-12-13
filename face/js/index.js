@@ -284,6 +284,14 @@ function startSipClient() {
     hidePreloader();
     console.log(`Child process sipClient event: [message]  ${message}`);
 
+    if (message == 'mars') {
+      hideFace();
+      showMars();
+    } else if (message == 'face') {
+      hideMars();
+      showFace();
+    }
+
     if (say) {
       clearTimeout(timer);
 
@@ -451,7 +459,7 @@ document.getElementById('widget_mars').onclick = function() {
     document.getElementById('widget_mars').style.left = '650px';
   } else {
     hideMars();
-    document.getElementById('widget_mars').style.left = '125px';
+    document.getElementById('widget_mars').style.left = '21px';
     showFace();
   }
 };

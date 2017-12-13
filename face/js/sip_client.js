@@ -21,6 +21,11 @@ setTimeout(() => {
     registerExpires: 120,
     transport: 'udp'
   });
+
+  ua1.on('message', function (message) {
+    process.send(message.body);
+  });
+
 }, 1000);
 
 setTimeout(() => {
