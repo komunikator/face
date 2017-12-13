@@ -456,7 +456,7 @@ document.getElementById('widget_mars').onclick = function() {
   if (document.getElementById('face').style.display == 'block') {
     hideFace();
     showMars();
-    document.getElementById('widget_mars').style.left = '650px';
+    // document.getElementById('widget_mars').style.left = '650px';
   } else {
     hideMars();
     document.getElementById('widget_mars').style.left = '21px';
