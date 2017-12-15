@@ -12,10 +12,10 @@ let ua1;
 setTimeout(() => {
   // ********************** 1 **************************
   ua1 = new SIP.UA({
-    uri: 'sip:user1@172.17.3.33',
+    uri: 'sip:user1@127.0.0.1',
     user: 'user1',
     password: 'user1',
-    wsServers: ['udp://172.17.3.33:5060'],
+    wsServers: ['udp://127.0.0.1:5060'],
     register: true,
     mediaHandlerFactory: SIP.RTC.MediaHandler.defaultFactory,
     registerExpires: 120,
@@ -66,7 +66,7 @@ setTimeout(() => {
         }
     };
 
-    let session = ua1.invite('sip:face@172.17.3.33', options);
+    let session = ua1.invite('sip:face@127.0.0.1', options);
 
     // ****** Запись входящего потока ****** //
     // let fileNameRemoteStreamConver = 'remoteStreamConvertMars.txt';
